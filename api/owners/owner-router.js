@@ -4,7 +4,7 @@ const {default:jwtDecode} = require('jwt-decode')
 
 
 // post a new item
-router.post('/',async(req,res,next)=>{
+router.post('/add-listing',async(req,res,next)=>{
     try{
         const decode = jwtDecode(req.headers.authorization)
         const{name,description,cost,image}=req.body
@@ -29,7 +29,7 @@ router.post('/',async(req,res,next)=>{
 })
 
 // Retrieve all of owners items
-router.get('/',(req,res,next)=>{
+router.get('/owner-items',(req,res,next)=>{
     const decode = jwtDecode(req.headers.authorization)
 
     Owner.findItemsOfOwner(decode.username)
@@ -42,7 +42,7 @@ router.get('/',(req,res,next)=>{
 })
 
 // Retrieve a specific item of the owner
-router.get('/:item_id',(req,res,next)=>{
+router.get('/owner-items/:item_id',(req,res,next)=>{
     Owner.findById(req.params.item_id)
     .then(success=>{
         res.status(200).json(success)
@@ -53,7 +53,7 @@ router.get('/:item_id',(req,res,next)=>{
 })
 
 //Updates a specific item of the owner
-router.put('/:item_id',(req,res,next)=>{
+router.put('/owner-items/:item_id',(req,res,next)=>{
     const {item_id} = req.params
     const updatedItem = req.body
 
@@ -67,7 +67,7 @@ router.put('/:item_id',(req,res,next)=>{
 })
 
 //Deletes a specific item of the owner
-router.delete('/:item_id',(req,res,next)=>{
+router.delete('/owner-items/:item_id',(req,res,next)=>{
     const {item_id}=req.params
     Owner.removeItem(item_id)
     .then(success=>{
